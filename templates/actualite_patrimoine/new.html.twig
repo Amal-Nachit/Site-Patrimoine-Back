@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ActualitePatrimoine{% endblock %}
+
+{% block body %}
+    <h1>Create new ActualitePatrimoine</h1>
+
+    {{ include('actualite_patrimoine/_form.html.twig') }}
+    {# {{ include('autres_images/_form.html.twig') }} #}
+
+
+    <a href="{{ path('app_actualite_patrimoine_index') }}">back to list</a>
+{% endblock %}

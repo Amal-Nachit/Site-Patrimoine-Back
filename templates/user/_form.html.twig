@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="flex justify-center items-center">
+    <button class="inline-flex items-center justify-center my-3 px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-lg bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300">{{ button_label|default('Save') }}</button>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ActualitePatrimoine{% endblock %}
+
+{% block body %}
+    <h1>ActualitePatrimoine</h1>
+    
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ actualite_patrimoine.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre de l'actualité</th>
+                <td>{{ actualite_patrimoine.titreActualite }}</td>
+            </tr>
+            <tr>
+                <th>Image principale</th>
+                <td>{{ actualite_patrimoine.imageActualite }} <img src="{{asset('uploads/images/' ~ actualite_patrimoine.imageActualite)}}"></td>
+            </tr>
+            <tr>
+                <th>Contenu de l'actualité</th>
+                <td>{{ actualite_patrimoine.contenuActualite }}</td>
+            </tr>
+            <tr>
+                <th>Date de publication</th>
+                <td>{{ actualite_patrimoine.datePublication ? actualite_patrimoine.datePublication|date('Y-m-d') : '' }}</td>
+            </tr>
+            {% for autres_images in actualite_patrimoine.autresImages %}
+            <tr>
+                <th>Autres images</th>
+                <td>{{ autres_images.image_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_actualite_patrimoine_index') }}">back to list</a>
+
+    <a href="{{ path('app_actualite_patrimoine_edit', {'id': actualite_patrimoine.id}) }}">edit</a>
+
+    {{ include('actualite_patrimoine/_delete_form.html.twig') }}
+{% endblock %}
