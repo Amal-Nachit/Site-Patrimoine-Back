@@ -1,44 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ActualitePatrimoine{% endblock %}
+{% block title %}Détails de l'actualité{% endblock %}
 
 {% block body %}
-    <h1>ActualitePatrimoine</h1>
-    
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ actualite_patrimoine.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre de l'actualité</th>
-                <td>{{ actualite_patrimoine.titreActualite }}</td>
-            </tr>
-            <tr>
-                <th>Image principale</th>
-                <td>{{ actualite_patrimoine.imageActualite }} <img src="{{asset('uploads/images/' ~ actualite_patrimoine.imageActualite)}}"></td>
-            </tr>
-            <tr>
-                <th>Contenu de l'actualité</th>
-                <td>{{ actualite_patrimoine.contenuActualite }}</td>
-            </tr>
-            <tr>
-                <th>Date de publication</th>
-                <td>{{ actualite_patrimoine.datePublication ? actualite_patrimoine.datePublication|date('Y-m-d') : '' }}</td>
-            </tr>
-            {% for autres_images in actualite_patrimoine.autresImages %}
-            <tr>
-                <th>Autres images</th>
-                <td>{{ autres_images.image_name }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container mx-auto p-6 bg-blue-200">
+<div class="bg-blue-200 ">
+        <h1 class="text-3xl font-bold mb-6 mx-36">Détails de l'actualité</h1>
+        
+        <div class="bg-white shadow-md rounded-lg overflow-hidden mx-36">
+            <table class="min-w-full bg-white">
+                <tbody>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="py-4 px-6 text-left">Id :</th>
+                        <td class="py-4 px-6">{{ actualite_patrimoine.id }}</td>
+                    </tr>
+                    <tr class="border-b">
+                        <th class="py-4 px-6 text-left">Titre de l'actualité :</th>
+                        <td class="py-4 px-6">{{ actualite_patrimoine.titreActualite }}</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="py-4 px-6 text-left">Image principale :</th>
+                        <td class="py-4 px-6">
+                            <img src="{{ asset('uploads/images/' ~ actualite_patrimoine.imageActualite) }}" class="mt-2 w-72 h-72 object-cover">
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <th class="py-4 px-6 text-left">Contenu de l'actualité :</th>
+                        <td class="py-4 px-6">{{ actualite_patrimoine.contenuActualite }}</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="py-4 px-6 text-left">Date de publication:</th>
+                        <td class="py-4 px-6">{{ actualite_patrimoine.datePublication ? actualite_patrimoine.datePublication|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr class="border-b">
+                        <th class="py-4 px-6 text-left">Images supplémentaires :</th>
+                        <td class="py-4 px-6 flex flex-wrap">
+                            {% for autres_images in actualite_patrimoine.autresImages %}
+                                <img src="{{ asset('uploads/images/' ~ autres_images.getImageName()) }}" class="mr-4 mb-4 w-48 h-48 object-cover">
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="py-4 px-6 text-left">Lien supplémentaire :</th>
+                        <td class="py-4 px-6">
+                            {% for autres_liens in actualite_patrimoine.autresLiens %}
+                                <a href="{{ autres_liens.getLienUrl() }}" class="text-blue-500 hover:underline" target="_blank">{{ autres_liens.getLienUrl() }}</a>
+                                <br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <th class="py-4 px-6 text-left">Texte du lien supplémentaire :</th>
+                        <td class="py-4 px-6">
+                            {% for autres_liens in actualite_patrimoine.autresLiens %}
+                                <p>{{ autres_liens.getTexteLien() }}</p>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_actualite_patrimoine_index') }}">back to list</a>
+        <div class="mt-6 mx-36">
+            <a href="{{ path('app_actualite_patrimoine_index') }}" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out mt-4">Retour à la liste</a>
+            <a href="{{ path('app_actualite_patrimoine_edit', {'id': actualite_patrimoine.id}) }}" class="inline-block bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600">Editer</a>
+        </div>
 
-    <a href="{{ path('app_actualite_patrimoine_edit', {'id': actualite_patrimoine.id}) }}">edit</a>
-
-    {{ include('actualite_patrimoine/_delete_form.html.twig') }}
+        <div class="mt-6 mx-36">
+            {{ include('actualite_patrimoine/_delete_form.html.twig') }}
+        </div>
+    </div>
+    </div>
 {% endblock %}
+

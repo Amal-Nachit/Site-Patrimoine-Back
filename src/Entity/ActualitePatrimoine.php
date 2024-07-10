@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ActualitePatrimoineRepository::class)]
 class ActualitePatrimoine
@@ -15,28 +16,36 @@ class ActualitePatrimoine
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?string $titreActualite = null;
 
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?string $imageActualite = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?string $contenuActualite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?\DateTimeInterface $datePublication = null;
 
     /**
      * @var Collection<int, AutresLiens>
      */
     #[ORM\OneToMany(targetEntity: AutresLiens::class, mappedBy: 'actualitePatrimoine', cascade: ['persist'])]
-    private Collection $autresLiens;
-
-
+        private Collection $autresLiens;
     /**
      * @var Collection<int, AutresImages>
      */

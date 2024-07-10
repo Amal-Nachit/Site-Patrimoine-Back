@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AutresLiensRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AutresLiensRepository::class)]
 class AutresLiens
@@ -11,15 +12,20 @@ class AutresLiens
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+    
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
     private ?string $lienUrl = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
     private ?string $texteLien = null;
 
     #[ORM\ManyToOne(inversedBy: 'autresLiens')]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
     private ?ActualitePatrimoine $actualitePatrimoine = null;
 
     public function getId(): ?int

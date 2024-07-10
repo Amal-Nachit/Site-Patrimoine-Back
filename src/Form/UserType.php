@@ -18,23 +18,26 @@ class UserType extends AbstractType
         $builder
 
             ->add('email', EmailType::class, [
+                // 'mapped' => false,
                 'attr' => [
                     'class' => 'w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-base font-medium text-black outline-none focus:border-yellow-500 focus:shadow-md'
                 ]
             ])
-            // ->add('roles', ChoiceType::class, [
-            //     'choices' => [
-            //         'Éditeur' => 'ROLE_EDITOR',
-            //         'Administrateur' => 'ROLE_ADMIN'
-            //     ],
-                // 'expanded' => true,
-                // 'multiple' => true,
-                // 'label' => 'Rôle',
-                // 'attr' => [
-                //     'class' => 'w-full rounded-md border border-gray-300 bg-white py-2 px-4 space-x-2 text-base font-medium text-black outline-none focus:border-yellow-500 focus:shadow-md'
-                // ]
-            // ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Éditeur' => 'ROLE_EDITOR',
+                    'Administrateur' => 'ROLE_ADMIN'
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'label' => 'Rôle',
+                'attr' => [
+                    'class' => 'w-full rounded-md border border-gray-300 bg-white py-2 px-4 space-x-2 text-base font-medium text-black outline-none focus:border-yellow-500 focus:shadow-md'
+                ]
+            ])
             ->add('password', PasswordType::class, [
+                // 'mapped' => false,   
+                'label' => 'Mot de passe',
                 'attr' => [
                     'class' => 'w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-base font-medium text-black outline-none focus:border-yellow-500 focus:shadow-md'
                 ]

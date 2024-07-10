@@ -40,6 +40,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $nomUtilisateur = null;
 
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $resetToken;
+
     /**
      * @var Collection<int, ActualitePatrimoine>
      */
@@ -146,6 +149,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNomUtilisateur(string $nomUtilisateur): static
     {
         $this->nomUtilisateur = $nomUtilisateur;
+
+        return $this;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

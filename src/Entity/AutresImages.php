@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AutresImagesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AutresImagesRepository::class)]
 class AutresImages
@@ -11,12 +12,17 @@ class AutresImages
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show'])]
+
     private ?string $imageName = null;
 
     #[ORM\ManyToOne(inversedBy: 'autresImages')]
+    #[Groups(['api_actualite_patrimoine_index', 'api_actualite_patrimoine_show', 'groups' => 'api_autres_images_index'])]
     private ?ActualitePatrimoine $actualitePatrimoine = null;
 
     public function getId(): ?int

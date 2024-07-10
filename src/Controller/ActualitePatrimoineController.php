@@ -143,7 +143,7 @@ class ActualitePatrimoineController extends AbstractController
             $em->persist($actualitePatrimoine);
             $em->flush();
 
-            return $this->redirectToRoute('app_actualite_patrimoine_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_actualite_patrimoine_show', ['id' => $actualitePatrimoine->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('actualite_patrimoine/edit.html.twig', [
@@ -151,46 +151,28 @@ class ActualitePatrimoineController extends AbstractController
             'form' => $form->createView(),        ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    #[Route('/{id}/delete', name: 'delete', methods: ['DELETE'])]
     public function delete(Request $request, ActualitePatrimoine $actualitePatrimoine, EntityManagerInterface $em, ManagerRegistry $mr): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $actualitePatrimoine->getId()    , $request->getPayload()->getString('_token'))) {
-            $em = $mr->getManager();
+        if ($this->isCsrfTokenValid('delete' . $actualitePatrimoine->getId(), $request->request->get('_token'))) {
+
+            // Supprimer toutes les images associées à l'actualité
+            foreach ($actualitePatrimoine->getAutresImages() as $autresImage) {
+                $actualitePatrimoine->removeAutresImage($autresImage);
+            }
+            // Supprimer tous les liens associés à l'actualité
+            foreach ($actualitePatrimoine->getAutresLiens() as $autresLien) {
+                $actualitePatrimoine->removeAutresLien($autresLien);
+            }
+            $em->flush();
+
+            // Supprimer l'actualité patrimoine
             $em->remove($actualitePatrimoine);
             $em->flush();
         }
+
         return $this->redirectToRoute('app_actualite_patrimoine_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'delete_image', methods: ['DELETE'])]
-    public function deleteImage(AutresImages $image, Request $request, ActualitePatrimoine $actualitePatrimoine, EntityManagerInterface $em, ManagerRegistry $mr): Response
-    {
-        $data = json_decode($request->getContent(), true);
 
-        // On vérifie si le token est valide
-        if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
-            // On récupere le nom de l'image
-            $nom = $image->getImageName();
-            // On supprime l'image de la bdd
-            unlink($this->getParameter('images_directory') . '/' . $nom);
-            // On supprime l'enregistrement de la base de donnée
-            $em = $mr->getManager();
-            $em->remove($image);
-            $em->flush();
-        
-
-            // On répond en json
-            return new JsonResponse(['success' => 1]);
-        }else{
-            return new JsonResponse(['error' => 'Token Invalide'], 400);
-            }
-    }
-
-    public function tableauDeBord(): Response
-    {
-        $user = $this->getUser(); // Ou toute autre logique pour obtenir l'utilisateur
-        return $this->render('tableauDeBord.html.twig', [
-            'user' => $user,
-        ]);
-    }
 }
